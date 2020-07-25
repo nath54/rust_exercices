@@ -9,9 +9,9 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2]) {
 
     let mut rng = rand::thread_rng();
     //on définit la taille de la grille
-    let tx: usize=6;
-    let ty: usize=6;
-    let nbmurs=12;
+    let tx: usize=7;
+    let ty: usize=7;
+    let nbmurs=10;
 
     //on définit les coordonnées de l'entrée et de la sortie
     let entree=[0,0];
