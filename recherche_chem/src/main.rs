@@ -11,7 +11,7 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2]) {
     //on définit la taille de la grille
     let tx: usize=6;
     let ty: usize=6;
-    let nbmurs=6;
+    let nbmurs=12;
 
     //on définit les coordonnées de l'entrée et de la sortie
     let entree=[0,0];
@@ -113,27 +113,28 @@ fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32
             let mut case="";
             if map[x][y]==0{
                 if isincases([x as u32,y as u32], chem){
-                    case=" x ";
+                    case="x ";
                 }
                 else{
-                    case=" . ";
+                    case=". ";
                 }
             }
             else if map[x][y]==1{
-                case=" O ";
+                case="O ";
             }
             if map[x][y]==2{
-                case=" E ";
+                case="D ";
             }
             if map[x][y]==3{
-                case=" S ";
+                case="S ";
             }
             txt+=case;
 
         }
         txt+="\n";
     }
-    println!("result : \n{}",txt);
+    println!("\nLégende : \n '.'=sol\n 'O'=mur\n 'D'=départ\n 'S'=sortie \n 'x'=chemin trouvé");
+    println!("\nCarte : \n{}",txt);
 }
 
 //Fonction principale
