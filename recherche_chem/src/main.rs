@@ -9,8 +9,8 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2]) {
 
     let mut rng = rand::thread_rng();
     //on définit la taille de la grille
-    let tx: usize=5;
-    let ty: usize=5;
+    let tx: usize=6;
+    let ty: usize=6;
     let nbmurs=2;
 
     //on définit les coordonnées de l'entrée et de la sortie
@@ -52,7 +52,7 @@ fn isincases(case: [u32; 2], cases_explored: &std::vec::Vec<[u32; 2]>) -> bool{
 fn get_shortest_chem(chems: &std::vec::Vec<std::vec::Vec<[u32; 2]>>) -> std::vec::Vec<[u32; 2]>{
     let mut shortest=0;
     for i in 0..chems.len(){
-        if chems[i]<chems[shortest]{
+        if chems[i].len()<chems[shortest].len(){
             shortest=i;
         }
     }
@@ -65,31 +65,31 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<[u32; 2]>, map: &
     let mut chems: std::vec::Vec<std::vec::Vec<[u32; 2]>>=Vec::new();
 
     cexp.push([x,y]);
-    for xx in &[0, 2]{
-        for yy in &[0, 2]{
-            let dx:u32=*xx;
-            let dy:u32=*yy;
-            if !(x+dx==0) && !(y+dy==0) {
-                let cx: u32 = (x+dx-1) as u32;
-                let cy: u32 = (y+dy-1) as u32;  
-                if cx<map.len() as u32 && cy < map[0].len() as u32 {
-                    let actual_chem=(&cexp).to_vec();
-                    if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32] , &actual_chem )){
-                        let (chem,bon)=explore_case(cx as u32, cy as u32, &cexp, map);
-                        if bon{
-                            chems.push(chem);
-                        }
-                    }
-                    if map[cx as usize][cy as usize]== 3 as u32{
-                        let case=[cx, cy];
-                        cexp.push(case);
-                        chems.push( (&cexp).to_vec() );
+    for (xx,yy) in &[ (0, 1), (2, 1), (1, 0), (1, 2) ]{
+        let dx:u32=*xx;
+        let dy:u32=*yy;
+        if !(x+dx==0) && !(y+dy==0) {
+            let cx: u32 = (x+dx-1) as u32;
+            let cy: u32 = (y+dy-1) as u32;  
+            if cx<map.len() as u32 && cy < map[0].len() as u32 {
+                let actual_chem=(&cexp).to_vec();
+                if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32] , &actual_chem )){
+                    let (chem,bon)=explore_case(cx as u32, cy as u32, &cexp, map);
+                    if bon{
+                        chems.push(chem);
                     }
                 }
-            }            
+                if map[cx as usize][cy as usize]== 3 as u32{
+                    let case=[cx, cy];
+                    cexp.push(case);
+                    chems.push( (&cexp).to_vec() );
+                }
+            }
         }
     }
-    println!("chemins : {:?}", chems);
+    
+            
+    //println!("chemins : {:?}", chems);
     if chems.len()>0{
         let chem=get_shortest_chem(&chems);
         return (chem.to_vec(), true);
@@ -107,33 +107,33 @@ fn get_chem(map: &std::vec::Vec<std::vec::Vec<u32>>, entree: &[usize; 2]) -> (st
 }
 
 fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32; 2]>){
-    let txt="";
+    let mut txt: String=std::string::String::new();
     for x in 0..map.len(){
         for y in 0..map[x].len(){
             let mut case="";
             if map[x][y]==0{
                 if isincases([x as u32,y as u32], chem){
-                    case="x";
+                    case=" x ";
                 }
                 else{
-                    case=".";
+                    case=" . ";
                 }
             }
             else if map[x][y]==1{
-                case="O";
+                case=" O ";
             }
             if map[x][y]==2{
-                case="E";
+                case=" E ";
             }
             if map[x][y]==3{
-                case="S";
+                case=" S ";
             }
-            let txt = format!("{} {} ",txt,case);
+            txt+=case;
 
         }
-        let txt = format!("{}{}",txt,"\n");
+        txt+="\n";
     }
-    println!("result : {}",txt);
+    println!("result : \n{}",txt);
 }
 
 //Fonction principale
