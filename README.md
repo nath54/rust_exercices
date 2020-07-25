@@ -9,3 +9,4 @@ The exercices I've done :
   - https://exercism.io/tracks/rust/exercises/nth-prime -> nth_prime/
   - https://exercism.io/tracks/rust/exercises/beer-song -> beer_bottle_99/
   - https://exercism.io/tracks/rust/exercises/proverb -> proverb_forwant_waslost/
+  - https://exercism.io/tracks/rust/exercises/difference-of-squares -> dif_btw_squares_additions/
