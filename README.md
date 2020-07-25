@@ -10,3 +10,5 @@ The exercices I've done :
   - https://exercism.io/tracks/rust/exercises/beer-song -> beer_bottle_99/
   - https://exercism.io/tracks/rust/exercises/proverb -> proverb_forwant_waslost/
   - https://exercism.io/tracks/rust/exercises/difference-of-squares -> dif_btw_squares_additions/
+
+I already done a little alogirithm of path finding (it's probably not the best, but it works very well on little maps ;) ) -> recherche_chem/
