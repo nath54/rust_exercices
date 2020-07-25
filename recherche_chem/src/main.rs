@@ -11,7 +11,7 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2]) {
     //on définit la taille de la grille
     let tx: usize=6;
     let ty: usize=6;
-    let nbmurs=2;
+    let nbmurs=6;
 
     //on définit les coordonnées de l'entrée et de la sortie
     let entree=[0,0];
