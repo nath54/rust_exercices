@@ -40,8 +40,9 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2], [usize; 2])
 }
 
 fn isincases(case: [u32; 2], cases_explored: &std::vec::Vec<[u32; 2]>) -> bool{
-    for cc in cases_explored{
-        if cc==&case{
+    let cexp=cases_explored.to_vec();
+    for cc in cexp{
+        if cc==case{
             return true;
         } 
     }
@@ -106,6 +107,30 @@ fn get_chem(map: &std::vec::Vec<std::vec::Vec<u32>>, entree: &[usize; 2], sortie
 
 fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32; 2]>){
     let txt="";
+    for x in 0..map.len(){
+        for y in 0..map[x].len(){
+            let mut case="";
+            if map[x][y]==0{
+                if(isincases([x as u32,y as u32], chem)){
+                    case="x";
+                }
+                else{
+                    case=".";
+                }
+            }
+            else if map[x][y]==1{
+                case="O";
+            }
+            if map[x][y]==2{
+                case="E";
+            }
+            if map[x][y]==3{
+                case="S";
+            }
+            let txt = format!("{} {} ",txt,case);
+        }
+        let txt = format!("{}{}",txt,"\n");
+    }
     println!("result : {}",txt);
 }
 
