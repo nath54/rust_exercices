@@ -89,7 +89,7 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<[u32; 2]>, map: &
             }            
         }
     }
-
+    println!("chemins : {:?}", chems);
     if chems.len()>0{
         let chem=get_shortest_chem(&chems);
         return (chem.to_vec(), true);
