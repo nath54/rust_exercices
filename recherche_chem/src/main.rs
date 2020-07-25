@@ -1,6 +1,6 @@
 use rand::Rng;
 
-fn generate_map() -> std::vec::Vec<std::vec::Vec<u32>> {
+fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2], [usize; 2]) {
     //STRUCTURE D'UNE MAP : 
     // -0:vide, on peut y aller
     // -1:mur, on ne peut pas y aller
@@ -36,29 +36,43 @@ fn generate_map() -> std::vec::Vec<std::vec::Vec<u32>> {
     }
 
     println!("map : {:?}", array);
-    return array;
+    return (array,entree,sortie);
 }
 
-fn isincases(case: std::vec::Vec<u32>, cases_explored: std::vec::Vec<std::vec::Vec<u32>>) -> bool{
-
+fn isincases(case: std::vec::Vec<u32>, cases_explored: &std::vec::Vec<std::vec::Vec<u32>>) -> bool{
+    for cc in cases_explored{
+        if cc==&case{
+            return true;
+        } 
+    }
     return false;
 }
 
-fn explore_case(x: u32, y: u32, cases_explored: std::vec::Vec<std::vec::Vec<u32>>, map: std::vec::Vec<std::vec::Vec<u32>>) -> std::vec::Vec<std::vec::Vec<u32>>{
+fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<std::vec::Vec<u32>>, map: &std::vec::Vec<std::vec::Vec<u32>>) -> std::vec::Vec<std::vec::Vec<u32>> {
+    let mut chems = Vec::new();
+    let mut cexp=cases_explored.to_vec();
+    cexp=cexp;
     for xx in &[0, 2]{
         for yy in &[0, 2]{
             let cx: usize = (x+xx-1) as usize;
             let cy: usize = (y+yy-1) as usize;            
-            if map[cx][cy]==0 && !(isincases( [cx as u32, cy as u32].to_vec() , cases_explored)){
-
+            if map[cx][cy]== 0 as u32 && !(isincases( [cx as u32, cy as u32].to_vec() , &cexp)){
+                let nchems=explore_case(cx as u32, cy as u32, &cexp, map);
+                for c in nchems{
+                    chems.push(c);
+                }
             }
         }
     }
-    return cases_explored;
+    return chems;
+}
+
+fn get_all_chems(map: &std::vec::Vec<std::vec::Vec<u32>>){
+
 }
 
 //Fonction principale
 fn main(){
-    let map = generate_map();
-
+    let (map, entree, sortie) = generate_map();
+    
 }
