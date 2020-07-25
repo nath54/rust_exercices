@@ -9,9 +9,9 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2]) {
 
     let mut rng = rand::thread_rng();
     //on définit la taille de la grille
-    let tx: usize=10;
-    let ty: usize=10;
-    let nbmurs=10;
+    let tx: usize=5;
+    let ty: usize=5;
+    let nbmurs=2;
 
     //on définit les coordonnées de l'entrée et de la sortie
     let entree=[0,0];
@@ -129,6 +129,7 @@ fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32
                 case="S";
             }
             let txt = format!("{} {} ",txt,case);
+
         }
         let txt = format!("{}{}",txt,"\n");
     }
@@ -137,10 +138,13 @@ fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32
 
 //Fonction principale
 fn main(){
+    println!("Géneration de la map...");
     let (map, entree) = generate_map();
     
+    println!("Calcul du chemin le plus court...");
     let (chem,bon)=get_chem(&map, &entree);
 
+    println!("Affichage du résultat...");
     aff_result(&map, &chem);
 
     if bon{
