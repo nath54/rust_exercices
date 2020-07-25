@@ -39,6 +39,24 @@ fn generate_map() -> std::vec::Vec<std::vec::Vec<u32>> {
     return array;
 }
 
+fn isincases(case: std::vec::Vec<u32>, cases_explored: std::vec::Vec<std::vec::Vec<u32>>) -> bool{
+
+    return false;
+}
+
+fn explore_case(x: u32, y: u32, cases_explored: std::vec::Vec<std::vec::Vec<u32>>, map: std::vec::Vec<std::vec::Vec<u32>>) -> std::vec::Vec<std::vec::Vec<u32>>{
+    for xx in &[0, 2]{
+        for yy in &[0, 2]{
+            let cx: usize = (x+xx-1) as usize;
+            let cy: usize = (y+yy-1) as usize;            
+            if map[cx][cy]==0 && !(isincases( [cx as u32, cy as u32].to_vec() , cases_explored)){
+
+            }
+        }
+    }
+    return cases_explored;
+}
+
 //Fonction principale
 fn main(){
     let map = generate_map();
