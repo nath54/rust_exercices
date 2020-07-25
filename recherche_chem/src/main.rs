@@ -49,14 +49,14 @@ fn isincases(case: [u32; 2], cases_explored: &std::vec::Vec<[u32; 2]>) -> bool{
     return false;
 }
 
-fn get_shortest_chem(chems: &std::vec::Vec<std::vec::Vec<[u32; 2]>>) -> &std::vec::Vec<[u32; 2]>{
+fn get_shortest_chem(chems: &std::vec::Vec<std::vec::Vec<[u32; 2]>>) -> std::vec::Vec<[u32; 2]>{
     let mut shortest=0;
     for i in 0..chems.len(){
         if chems[i]<chems[shortest]{
             shortest=i;
         }
     }
-    let chemshort=&chems[shortest];
+    let chemshort=chems[shortest].to_vec();
     return chemshort;
 }
 
@@ -73,7 +73,8 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<[u32; 2]>, map: &
                 let cx: u32 = (x+dx-1) as u32;
                 let cy: u32 = (y+dy-1) as u32;  
                 if cx>=0 && cy>=0 && cx<map.len() as u32 && cy < map[0].len() as u32 {
-                    if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32] , &cexp)){
+                    let actual_chem=(&cexp).to_vec();
+                    if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32] , &actual_chem )){
                         let (chem,bon)=explore_case(cx as u32, cy as u32, &cexp, map);
                         if bon{
                             chems.push(chem);
@@ -82,7 +83,7 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<[u32; 2]>, map: &
                     if map[cx as usize][cy as usize]== 3 as u32{
                         let case=[cx, cy];
                         cexp.push(case);
-                        chems.push(cexp);
+                        chems.push( (&cexp).to_vec() );
                     }
                 }
             }            
