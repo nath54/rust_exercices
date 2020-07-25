@@ -1,6 +1,6 @@
 use rand::Rng;
 
-fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2], [usize; 2]) {
+fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2]) {
     //STRUCTURE D'UNE MAP : 
     // -0:vide, on peut y aller
     // -1:mur, on ne peut pas y aller
@@ -36,7 +36,7 @@ fn generate_map() -> (std::vec::Vec<std::vec::Vec<u32>>, [usize; 2], [usize; 2])
     }
 
     println!("map : {:?}", array);
-    return (array,entree,sortie);
+    return (array,entree);
 }
 
 fn isincases(case: [u32; 2], cases_explored: &std::vec::Vec<[u32; 2]>) -> bool{
@@ -72,7 +72,7 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<[u32; 2]>, map: &
             if !(x+dx==0) && !(y+dy==0) {
                 let cx: u32 = (x+dx-1) as u32;
                 let cy: u32 = (y+dy-1) as u32;  
-                if cx>=0 && cy>=0 && cx<map.len() as u32 && cy < map[0].len() as u32 {
+                if cx<map.len() as u32 && cy < map[0].len() as u32 {
                     let actual_chem=(&cexp).to_vec();
                     if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32] , &actual_chem )){
                         let (chem,bon)=explore_case(cx as u32, cy as u32, &cexp, map);
@@ -99,7 +99,7 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<[u32; 2]>, map: &
     }
 }
 
-fn get_chem(map: &std::vec::Vec<std::vec::Vec<u32>>, entree: &[usize; 2], sortie: &[usize; 2]) -> (std::vec::Vec<[u32; 2]>, bool){
+fn get_chem(map: &std::vec::Vec<std::vec::Vec<u32>>, entree: &[usize; 2]) -> (std::vec::Vec<[u32; 2]>, bool){
     let start_point_x=entree[0] as u32;
     let start_point_y=entree[1] as u32;
     let (chem,bon)=explore_case(start_point_x, start_point_y, &Vec::new(), &map);
@@ -112,7 +112,7 @@ fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32
         for y in 0..map[x].len(){
             let mut case="";
             if map[x][y]==0{
-                if(isincases([x as u32,y as u32], chem)){
+                if isincases([x as u32,y as u32], chem){
                     case="x";
                 }
                 else{
@@ -137,8 +137,17 @@ fn aff_result(map: &std::vec::Vec<std::vec::Vec<u32>>, chem: &std::vec::Vec<[u32
 
 //Fonction principale
 fn main(){
-    let (map, entree, sortie) = generate_map();
+    let (map, entree) = generate_map();
     
-    let result=get_chem(&map, &entree, &sortie);
-    println!("\nresult : {:?}", result);
+    let (chem,bon)=get_chem(&map, &entree);
+
+    aff_result(&map, &chem);
+
+    if bon{
+        println!("Un chemin a été trouvé !");
+    }
+    else{
+        println!("Aucun chemins n'a été trouvé");
+    }
+
 }
