@@ -54,25 +54,37 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<std::vec::Vec<u32
     cexp=cexp;
     for xx in &[0, 2]{
         for yy in &[0, 2]{
-            let cx: usize = (x+xx-1) as usize;
-            let cy: usize = (y+yy-1) as usize;            
-            if map[cx][cy]== 0 as u32 && !(isincases( [cx as u32, cy as u32].to_vec() , &cexp)){
-                let nchems=explore_case(cx as u32, cy as u32, &cexp, map);
-                for c in nchems{
-                    chems.push(c);
+            let dx:u32=*xx;
+            let dy:u32=*yy;
+            if !(x+dx==0) && !(y+dy==0) {
+                let cx: u32 = (x+dx-1) as u32;
+                let cy: u32 = (y+dy-1) as u32;  
+                if cx>=0 && cy>=0 && cx<map.len() as u32 && cy < map[0].len() as u32 {
+                    if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32].to_vec() , &cexp)){
+                        let nchems=explore_case(cx as u32, cy as u32, &cexp, map);
+                        for c in nchems{
+                            chems.push(c);
+                        }
+                    }
                 }
-            }
+            }          
         }
     }
     return chems;
 }
 
-fn get_all_chems(map: &std::vec::Vec<std::vec::Vec<u32>>){
-
+fn get_all_chems(map: &std::vec::Vec<std::vec::Vec<u32>>, entree: &[usize; 2], sortie: &[usize; 2]) -> std::vec::Vec<std::vec::Vec<u32>>{
+    let mut chems=Vec::new();
+    let start_point_x=entree[0] as u32;
+    let start_point_y=entree[1] as u32;
+    chems=explore_case(start_point_x, start_point_y, &Vec::new(), &map);
+    return chems;
 }
 
 //Fonction principale
 fn main(){
     let (map, entree, sortie) = generate_map();
     
+    let chems=get_all_chems(&map, &entree, &sortie);
+    println!("{:?}", chems);
 }
