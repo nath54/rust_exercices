@@ -61,16 +61,18 @@ fn explore_case(x: u32, y: u32, cases_explored: &std::vec::Vec<std::vec::Vec<u32
                 let cy: u32 = (y+dy-1) as u32;  
                 if cx>=0 && cy>=0 && cx<map.len() as u32 && cy < map[0].len() as u32 {
                     if map[cx as usize][cy as usize]== 0 as u32 && !(isincases( [cx as u32, cy as u32].to_vec() , &cexp)){
-                        let nchems=explore_case(cx as u32, cy as u32, &cexp, map);
-                        for c in nchems{
-                            chems.push(c);
-                        }
+                        let chem=explore_case(cx as u32, cy as u32, &cexp, map);
+                    }
+                    if map[cx as usize][cy as usize]== 3 as u32{
+                        let case=Vec::new();
+                        case.push();
+                        cexp.push(case);
                     }
                 }
-            }          
+            }            
         }
     }
-    return chems;
+    return cexp;
 }
 
 fn get_all_chems(map: &std::vec::Vec<std::vec::Vec<u32>>, entree: &[usize; 2], sortie: &[usize; 2]) -> std::vec::Vec<std::vec::Vec<u32>>{
